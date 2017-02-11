@@ -28,7 +28,7 @@ Jacket.prototype.addSeason = function(season) {
   this.season.push(season);
 }
 
-var rainJacket = new Jacket("med", "purple", ["summer", "spring", "fall"], 68.00);
+let rainJacket = new Jacket("med", "purple", ["summer", "spring", "fall"], 68.00);
 
 let Library = function(name, creator) {
   this.name = name;
@@ -45,36 +45,57 @@ let carMusic = new Library("Roadtrip Music", "Steve")
 //---> A Playlist also has many tracks
 //---> Each Playlist also has an overallRating function which will calculate the rating by averaging the rating of its tracks
 //---> Each Playlist also has a totalDuration function which will sum the duration of all of its tracks
+//maybe use the secondsToMinutes function for total Duration.
 let Playlist = function(name) {
   this.name = name;
-  this.tracks = ["one", "two", "three"];
-  this.overallRating = [1, 3, 5, 3, 3, 2];
+  this.tracks = [];
+  this.trackRating = [];
   this.averageRating = 0;
-  this.totalDuration = [600];
+  this.trackDuration = [];
+  this.totalDuration = 0;
 }
 
-let songs1 = new Playlist("Songs For Lance");
+let song1 = new Playlist("Roadtrip Songs")
 
-Playlist.prototype.addTrackToPlaylist = function(trackName) {
-
+//dont know if this needs to exist. Possible to just add functions as methods and have information stored
+//for every instance
+Playlist.prototype.addTrackToPlaylist = function(trackName, trackRating, trackDurationInSeconds) {
+  this.tracks.push(trackName);
+  this.trackRating.push(trackRating);
+  this.trackDuration.push(trackDurationInSeconds);
 }
 
-Playlist.prototype.getRatingAverage = function(arrayOfRatings){
-  let tracks = this.overallRating.length;
+song1.addTrackToPlaylist("Tellin Lies", 5, 200)
+song1.addTrackToPlaylist("The Bars", 4, 230)
+song1.addTrackToPlaylist("After The Party", 4, 190)
+song1.addTrackToPlaylist("Life Aint Easy", 5, 250)
+
+Playlist.prototype.getRatingAverage = function(arrayOfRatings) {
+  let tracks = this.trackRating.length;
   let totalRating = 0;
-    for (var i = 0; i < tracks - 1; i++) {
+    for (var i = 0; i < tracks; i++) {
       totalRating += arrayOfRatings[i];
     }
     return this.averageRating = (totalRating / tracks);
 }
 
-
-songs1.getRatingAverage(songs1.overallRating)
+song1.getRatingAverage(song1.trackRating)
 console.log(songs1)
 
+Playlist.prototype.convertToMinutes = function(songTimeArray) {
+  let songTimeTotal = this.trackDuration.length;
+  let totalTime = 0;
+  for (var i = 0; i < songTimeTotal; i++) {
+    totalTime += songTimeArray[i]
+  }
+  var minutes = (totalTime / 60).toFixed(2);
+   return minutes;
+   //maybe return a template literal with _Minutes and _Seconds (60 seconds logic)
+}
+
+song1.convertToMinutes(song1.trackDuration)
 
 Playlist.prototype.sumDurationInSeconds = function(){
-  // let tracks = t
 
 }
 
